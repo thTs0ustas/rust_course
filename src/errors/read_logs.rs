@@ -2,9 +2,10 @@ use std::fs::read_to_string;
 
 use std::io::{Error, ErrorKind::NotFound};
 
-pub fn write_to_file(file: &str, contents: &Vec<String>) -> Result<(), Error> {
+pub fn write_to_file(file: &str, contents: &[String]) -> Result<(), Error> {
     let contents = contents.join("\n");
-    std::fs::write(file, contents)
+    std::fs::write(file, contents)?;
+    Ok(())
 }
 
 pub fn read_log(file: &str) -> Result<Vec<String>, Error> {

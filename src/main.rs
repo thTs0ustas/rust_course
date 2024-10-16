@@ -1,21 +1,24 @@
 mod errors;
+mod iterators;
+mod lifetimes;
+
+use std::io::Error;
+
 use errors::read_logs::{read_log, write_to_file};
+use iterators::iterator_fn::{print_elements, shorten_string, uppercase};
 
 const LOG_FILE: &str = "logs.txt";
 
-fn main() {
-    let log = match read_log(LOG_FILE) {
-        Ok(log) => log,
-        Err(err) => {
-            eprintln!("Error: {:?}", err);
-            return ();
-        }
-    };
+fn main() -> Result<(), Error> {
+    let mut log = read_log(LOG_FILE)?;
 
-    match write_to_file("errors.txt", &log) {
-        Ok(_) => (),
-        Err(err) => eprintln!("Error: {:?}", err),
-    }
+    let upper = uppercase(&log);
+    print_elements(&upper);
+    shorten_string(&mut log, 1);
+
+    write_to_file("errors.txt", &log)?;
+
+    Ok(())
 }
 
 // mod bank;
