@@ -6,6 +6,7 @@ use std::io::Error;
 
 use errors::read_logs::{read_log, write_to_file};
 use iterators::iterator_fn::{print_elements, shorten_string, uppercase};
+use lifetimes::lifetimes_examples::next_language;
 
 const LOG_FILE: &str = "logs.txt";
 
@@ -17,6 +18,16 @@ fn main() -> Result<(), Error> {
     shorten_string(&mut log, 1);
 
     write_to_file("errors.txt", &log)?;
+
+    let languages = vec![
+        String::from("Rust"),
+        String::from("Python"),
+        String::from("JavaScript"),
+    ];
+
+    let is_found = next_language(&languages, "Python");
+
+    println!("{}", is_found);
 
     Ok(())
 }
